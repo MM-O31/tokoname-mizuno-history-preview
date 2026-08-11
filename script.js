@@ -38,11 +38,38 @@ const archiveDialogImage = document.getElementById('archive-dialog-image');
 const archiveDialogTitle = document.getElementById('archive-dialog-title');
 const archiveDialogDescription = document.getElementById('archive-dialog-description');
 const archiveDialogClose = document.querySelector('.archive-dialog-close');
+const archiveZoomPane = document.querySelector('.archive-zoom-pane');
+const canHoverZoom = window.matchMedia('(hover: hover) and (pointer: fine)');
 let archiveDialogTrigger = null;
+
+const resetArchiveZoom = () => {
+  archiveZoomPane.classList.remove('is-zoomed');
+  archiveZoomPane.style.removeProperty('--zoom-x');
+  archiveZoomPane.style.removeProperty('--zoom-y');
+};
+
+const updateArchiveZoom = (event) => {
+  const bounds = archiveZoomPane.getBoundingClientRect();
+  const x = Math.min(100, Math.max(0, ((event.clientX - bounds.left) / bounds.width) * 100));
+  const y = Math.min(100, Math.max(0, ((event.clientY - bounds.top) / bounds.height) * 100));
+  archiveZoomPane.style.setProperty('--zoom-x', `${x}%`);
+  archiveZoomPane.style.setProperty('--zoom-y', `${y}%`);
+};
+
+archiveZoomPane.addEventListener('pointerenter', (event) => {
+  if (!canHoverZoom.matches) return;
+  archiveZoomPane.classList.add('is-zoomed');
+  updateArchiveZoom(event);
+});
+archiveZoomPane.addEventListener('pointermove', (event) => {
+  if (archiveZoomPane.classList.contains('is-zoomed')) updateArchiveZoom(event);
+});
+archiveZoomPane.addEventListener('pointerleave', resetArchiveZoom);
 
 document.querySelectorAll('.archive-gallery-button').forEach((button) => {
   button.addEventListener('click', () => {
     const thumbnail = button.querySelector('img');
+    resetArchiveZoom();
     archiveDialogTrigger = button;
     archiveDialogImage.src = thumbnail.src;
     archiveDialogImage.alt = thumbnail.alt;
@@ -57,6 +84,7 @@ archiveDialog.addEventListener('click', (event) => {
   if (event.target === archiveDialog) archiveDialog.close();
 });
 archiveDialog.addEventListener('close', () => {
+  resetArchiveZoom();
   archiveDialogImage.removeAttribute('src');
   archiveDialogTrigger?.focus();
 });
