@@ -38,6 +38,8 @@ const archiveDialogImage = document.getElementById('archive-dialog-image');
 const archiveDialogTitle = document.getElementById('archive-dialog-title');
 const archiveDialogDescription = document.getElementById('archive-dialog-description');
 const archiveDialogModern = document.getElementById('archive-dialog-modern');
+const archiveDialogResearchBox = document.querySelector('.archive-dialog-research');
+const archiveDialogResearch = document.getElementById('archive-dialog-research');
 const archiveDialogClose = document.querySelector('.archive-dialog-close');
 const archiveZoomPane = document.querySelector('.archive-zoom-pane');
 const canHoverZoom = window.matchMedia('(hover: hover) and (pointer: fine)');
@@ -77,6 +79,9 @@ document.querySelectorAll('.archive-gallery-button').forEach((button) => {
     archiveDialogTitle.textContent = button.dataset.title;
     archiveDialogDescription.textContent = button.dataset.description;
     archiveDialogModern.textContent = button.dataset.modern;
+    const researchNote = button.dataset.research;
+    archiveDialogResearchBox.hidden = !researchNote;
+    archiveDialogResearch.textContent = researchNote || '';
     archiveDialog.showModal();
   });
 });
