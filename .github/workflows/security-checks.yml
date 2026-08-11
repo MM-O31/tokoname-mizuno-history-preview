@@ -1,0 +1,19 @@
+name: Security checks
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  privacy-scan:
+    name: Image privacy scan
+    runs-on: ubuntu-latest
+    steps:
+      # 実行内容が予告なく変わらないよう、公式Actionもコミットを固定する。
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Reject EXIF, XMP, and MPO metadata
+        run: python .github/scripts/check_image_metadata.py

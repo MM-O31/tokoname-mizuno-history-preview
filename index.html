@@ -3,6 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- 静的サイトで不要な通信・埋め込み・フォーム送信をブラウザ側でも遮断する。 -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'none'; object-src 'none'; form-action 'none'; img-src 'self' data:; style-src 'self'; script-src 'self' 'sha256-O03cbELi19CfRnhezqfH5pi4mgpSdCLk+qT1bfU5gbQ='; connect-src 'none'; font-src 'self'; media-src 'none'; worker-src 'none'; upgrade-insecure-requests">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
   <meta name="description" content="常滑水野家の由緒、水野守隆・水野守信の歩み、常滑城、常滑水野家文書など、知多・常滑に伝わる一族の歴史を紹介します。">
   <meta name="robots" content="index, follow">
   <meta name="theme-color" content="#17184b">
