@@ -32,3 +32,31 @@ if ('IntersectionObserver' in window) {
 }
 
 document.getElementById('current-year').textContent = new Date().getFullYear();
+
+const archiveDialog = document.getElementById('archive-dialog');
+const archiveDialogImage = document.getElementById('archive-dialog-image');
+const archiveDialogTitle = document.getElementById('archive-dialog-title');
+const archiveDialogDescription = document.getElementById('archive-dialog-description');
+const archiveDialogClose = document.querySelector('.archive-dialog-close');
+let archiveDialogTrigger = null;
+
+document.querySelectorAll('.archive-gallery-button').forEach((button) => {
+  button.addEventListener('click', () => {
+    const thumbnail = button.querySelector('img');
+    archiveDialogTrigger = button;
+    archiveDialogImage.src = thumbnail.src;
+    archiveDialogImage.alt = thumbnail.alt;
+    archiveDialogTitle.textContent = button.dataset.title;
+    archiveDialogDescription.textContent = button.dataset.description;
+    archiveDialog.showModal();
+  });
+});
+
+archiveDialogClose.addEventListener('click', () => archiveDialog.close());
+archiveDialog.addEventListener('click', (event) => {
+  if (event.target === archiveDialog) archiveDialog.close();
+});
+archiveDialog.addEventListener('close', () => {
+  archiveDialogImage.removeAttribute('src');
+  archiveDialogTrigger?.focus();
+});
