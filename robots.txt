@@ -1,2 +1,4 @@
 User-agent: *
-Disallow: /
+Allow: /
+
+Sitemap: https://mm-o31.github.io/tokoname-mizuno-history-preview/sitemap.xml
